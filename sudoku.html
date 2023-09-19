@@ -64,7 +64,7 @@
             sudokuElements = [];
             sudokuRow = 0;
             sudokuCol = 0;
-            stopCondition = 0;
+            stopCondition = 1;
             const sudokuContainer = document.getElementById("sudoku-container");
             sudokuContainer.appendChild(document.createElement("br"));
             for (let row = 0; row < 9; row++) {
@@ -96,10 +96,7 @@
             }
          } while (randomNumberExistsInAColumn(randomNumber, col) || randomNumberExistsInARow(randomNumber, row))
 
-        if (stopCondition !== 0) {
-            sudokuElements[row].push(randomNumber);
-        }
-
+        sudokuElements[row].push(randomNumber);
         return randomNumber;
     }
 
