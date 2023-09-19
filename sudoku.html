@@ -49,6 +49,8 @@
 
 <script>
     let sudokuElements = [];
+    let maxRow = 9;
+    let maxCol = 9;
     let sudokuRow = 0;
     let sudokuCol = 0;
     let stopCondition = 0;
@@ -70,7 +72,7 @@
                 for (let col = 0; col < 9; col++) {
                     const box = document.createElement("div");
                     box.className = "box";
-                    box.textContent = createSudokuElement(row);
+                    box.textContent = createSudokuElement(row, col);
                     sudokuContainer.appendChild(box);
                 }
                 sudokuRow++;
@@ -81,32 +83,42 @@
         }
     }
 
-    function createSudokuElement(index)
+    function createSudokuElement(row, col)
     {
         let randomNumber;
-        let flag = false;
         do {
             stopCondition++;
-            if (stopCondition < 5000) {
+            if (stopCondition < 200) {
                 randomNumber = Math.floor(Math.random() * 9)+1;
             } else {
                 xExists = true;
                 return "X";
             }
+         } while (randomNumberExistsInAColumn(randomNumber, col) || randomNumberExistsInARow(randomNumber, row))
 
-            for (let i = 0; i < index; i++) {
-                if (sudokuElements[i][sudokuCol] === randomNumber)
-                {
-                    flag = true;
-                }
-            }
-         } while (flag)
-
-        if (stopCondition !== 0){
-            sudokuElements[index].push(randomNumber);
+        if (stopCondition !== 0) {
+            sudokuElements[row].push(randomNumber);
         }
 
         return randomNumber;
+    }
+
+    function randomNumberExistsInAColumn(randomNumber, col)
+    {
+        for (let i = 0; i < maxRow; i++) {
+            if (i in sudokuElements && col in sudokuElements[i] && sudokuElements[i][col] === randomNumber) {
+                return true;
+            }
+        }
+    }
+
+    function randomNumberExistsInARow(randomNumber, row)
+    {
+        for (let i = 0; i < maxCol; i++) {
+            if (row in sudokuElements && i in sudokuElements[row] && sudokuElements[row][i] === randomNumber) {
+                return true;
+            }
+        }
     }
 
 </script>
